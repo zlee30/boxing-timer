@@ -72,60 +72,59 @@
     </div><!-- end timer-device -->
 
 
-    <!-- Time pickers (shown when SET tapped) -->
-    <div class="pickers" id="pickersEl">
-      <div class="pick-title">Set Timer</div>
-      <div class="pick-row">
-        <div class="pick-grp">
-          <div class="pick-lbl">Hrs</div>
-          <div class="picker">
-            <button class="pu" onclick="adj('ph', 1)">▲</button>
-            <div class="pv" id="ph">00</div>
-            <button class="pd" onclick="adj('ph', -1)">▼</button>
-          </div>
-        </div>
-        <div class="psep">:</div>
-        <div class="pick-grp">
-          <div class="pick-lbl">Min</div>
-          <div class="picker">
-            <button class="pu" onclick="adj('pm', 1)">▲</button>
-            <div class="pv" id="pm">00</div>
-            <button class="pd" onclick="adj('pm', -1)">▼</button>
-          </div>
-        </div>
-        <div class="psep">:</div>
-        <div class="pick-grp">
-          <div class="pick-lbl">Sec</div>
-          <div class="picker">
-            <button class="pu" onclick="adj('ps', 1)">▲</button>
-            <div class="pv" id="ps">00</div>
-            <button class="pd" onclick="adj('ps', -1)">▼</button>
-          </div>
-        </div>
+   <!-- Time pickers (shown when SET tapped) -->
+<div class="pickers" id="pickersEl">
+  <div class="pick-title">Set Timer</div>
+  <div class="pick-row">
+    <div class="pick-grp">
+      <div class="pick-lbl">Hrs</div>
+      <div class="picker">
+        <button class="pu" onclick="adj('ph', 1)">▲</button>
+        <input class="pv" id="ph" type="number" min="0" max="23" value="0" inputmode="numeric" pattern="[0-9]*" onfocus="clearOnFocus(this)" onblur="clampVal(this,0,23)">
+        <button class="pd" onclick="adj('ph', -1)">▼</button>
       </div>
-
-      <div class="pick-subtitle">Set Rest</div>
-      <div class="pick-row">
-        <div class="pick-grp">
-          <div class="pick-lbl">Min</div>
-          <div class="picker">
-            <button class="pu" onclick="adj('rm', 1)">▲</button>
-            <div class="pv bl" id="rm">00</div>
-            <button class="pd" onclick="adj('rm', -1)">▼</button>
-          </div>
-        </div>
-        <div class="psep">:</div>
-        <div class="pick-grp">
-          <div class="pick-lbl">Sec</div>
-          <div class="picker">
-            <button class="pu" onclick="adj('rs', 1)">▲</button>
-            <div class="pv bl" id="rs">00</div>
-            <button class="pd" onclick="adj('rs', -1)">▼</button>
-          </div>
-        </div>
+    </div>
+    <div class="psep">:</div>
+    <div class="pick-grp">
+      <div class="pick-lbl">Min</div>
+      <div class="picker">
+        <button class="pu" onclick="adj('pm', 1)">▲</button>
+        <input class="pv" id="pm" type="number" min="0" max="59" value="0" inputmode="numeric" pattern="[0-9]*" onfocus="clearOnFocus(this)" onblur="clampVal(this,0,59)">
+        <button class="pd" onclick="adj('pm', -1)">▼</button>
       </div>
-    </div><!-- end pickers -->
+    </div>
+    <div class="psep">:</div>
+    <div class="pick-grp">
+      <div class="pick-lbl">Sec</div>
+      <div class="picker">
+        <button class="pu" onclick="adj('ps', 1)">▲</button>
+        <input class="pv" id="ps" type="number" min="0" max="59" value="0" inputmode="numeric" pattern="[0-9]*" onfocus="clearOnFocus(this)" onblur="clampVal(this,0,59)">
+        <button class="pd" onclick="adj('ps', -1)">▼</button>
+      </div>
+    </div>
+  </div>
 
+  <div class="pick-subtitle">Set Rest</div>
+  <div class="pick-row">
+    <div class="pick-grp">
+      <div class="pick-lbl">Min</div>
+      <div class="picker">
+        <button class="pu" onclick="adj('rm', 1)">▲</button>
+        <input class="pv bl" id="rm" type="number" min="0" max="59" value="0" inputmode="numeric" pattern="[0-9]*" onfocus="clearOnFocus(this)" onblur="clampVal(this,0,59)">
+        <button class="pd" onclick="adj('rm', -1)">▼</button>
+      </div>
+    </div>
+    <div class="psep">:</div>
+    <div class="pick-grp">
+      <div class="pick-lbl">Sec</div>
+      <div class="picker">
+        <button class="pu" onclick="adj('rs', 1)">▲</button>
+        <input class="pv bl" id="rs" type="number" min="0" max="59" value="0" inputmode="numeric" pattern="[0-9]*" onfocus="clearOnFocus(this)" onblur="clampVal(this,0,59)">
+        <button class="pd" onclick="adj('rs', -1)">▼</button>
+      </div>
+    </div>
+  </div>
+</div>
     <!-- Timer buttons -->
 <div class="btn-row-2">
   <button class="gb gs" id="tStartBtn" onclick="tStartStop()">START</button>

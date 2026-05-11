@@ -58,6 +58,18 @@ function setDigits(ids, str) {
   });
 }
 
+function clearOnFocus(el) {
+  el.value = '';
+}
+
+function clampVal(el, min, max) {
+  var v = parseInt(el.value);
+  if (isNaN(v) || el.value === '') v = 0;
+  if (v < min) v = min;
+  if (v > max) v = max;
+  el.value = v;
+}
+
 /* ── Mode switch ── */
 var currentMode = 'timer';
 
@@ -95,12 +107,14 @@ var pv   = { ph: 0, pm: 0, ps: 0, rm: 0, rs: 0 };
 var pmax = { ph: 23, pm: 59, ps: 59, rm: 59, rs: 59 };
 
 function adj(id, dir) {
-  var v  = pv[id] + dir;
+  var el = document.getElementById(id);
+  var v  = parseInt(el.value) || 0;
   var mx = pmax[id];
+  v += dir;
   if (v < 0)  v = mx;
   if (v > mx) v = 0;
-  pv[id] = v;
-  document.getElementById(id).textContent = pad(v);
+  pv[id]   = v;
+  el.value = v;
 }
 
 function tSetToggle() {
@@ -108,6 +122,7 @@ function tSetToggle() {
   setting = !setting;
   var pickerEl = document.getElementById('pickersEl');
   var setBtn   = document.getElementById('tSetBtn');
+
   if (setting) {
     pickerEl.classList.add('show');
     setBtn.textContent = 'DONE';
@@ -118,13 +133,20 @@ function tSetToggle() {
     var rs = Math.floor((rTotal % 60000)   / 1000);
     pv = { ph: h, pm: m, ps: s, rm: rm, rs: rs };
     ['ph','pm','ps','rm','rs'].forEach(function (id) {
-      document.getElementById(id).textContent = pad(pv[id]);
+      document.getElementById(id).value = pv[id];
     });
+
   } else {
+    /* ── THIS } WAS MISSING — it closes the else block ── */
     pickerEl.classList.remove('show');
     setBtn.textContent = 'SET';
-    tTotal = (pv.ph * 3600 + pv.pm * 60 + pv.ps) * 1000;
-    rTotal = (pv.rm * 60 + pv.rs) * 1000;
+    var ph = parseInt(document.getElementById('ph').value) || 0;
+    var pm = parseInt(document.getElementById('pm').value) || 0;
+    var ps = parseInt(document.getElementById('ps').value) || 0;
+    var rm2 = parseInt(document.getElementById('rm').value) || 0;
+    var rs2 = parseInt(document.getElementById('rs').value) || 0;
+    tTotal = (ph * 3600 + pm * 60 + ps) * 1000;
+    rTotal = (rm2 * 60 + rs2) * 1000;
     tRem   = tTotal;
     rRem   = rTotal;
     updateTimerDisplay(tTotal);
@@ -144,11 +166,11 @@ function tStartStop() {
     isRest   = false;
     if (!tRem || tRem <= 0) tRem = tTotal;
 
-    startBtn.textContent = 'STOP';
+    startBtn.textContent   = 'STOP';
     startBtn.style.cssText = 'background:linear-gradient(180deg,rgba(160,20,20,0.95),rgba(120,10,10,0.98));border-color:rgba(220,40,40,0.7);color:#fff;';
-    prBtn.disabled       = false;
-    prBtn.textContent    = 'PAUSE';
-    prBtn.style.cssText  = 'background:linear-gradient(180deg,rgba(160,80,10,0.95),rgba(120,55,5,0.98));border-color:rgba(220,120,20,0.7);color:#fff;';
+    prBtn.disabled         = false;
+    prBtn.textContent      = 'PAUSE';
+    prBtn.style.cssText    = 'background:linear-gradient(180deg,rgba(160,80,10,0.95),rgba(120,55,5,0.98));border-color:rgba(220,120,20,0.7);color:#fff;';
 
     colonsOn();
     startBeep();
@@ -181,11 +203,11 @@ function tStartStop() {
   } else {
     clearInterval(tIv);
     tRunning = false; tPaused = false; isRest = false;
-    startBtn.textContent = 'START';
+    startBtn.textContent   = 'START';
     startBtn.style.cssText = '';
-    prBtn.disabled       = true;
-    prBtn.textContent    = 'PAUSE';
-    prBtn.style.cssText  = 'background:linear-gradient(180deg,rgba(160,80,10,0.95),rgba(120,55,5,0.98));border-color:rgba(220,120,20,0.7);color:#fff;';
+    prBtn.disabled         = true;
+    prBtn.textContent      = 'PAUSE';
+    prBtn.style.cssText    = 'background:linear-gradient(180deg,rgba(160,80,10,0.95),rgba(120,55,5,0.98));border-color:rgba(220,120,20,0.7);color:#fff;';
     tRem = tTotal; rRem = rTotal;
     updateTimerDisplay(tTotal);
     updateRestDisplay(rTotal);
@@ -201,7 +223,6 @@ function tPauseResume() {
   var prBtn = document.getElementById('tPRBtn');
   if (tPaused) {
     prBtn.textContent   = 'RESUME';
-    /* ── force green with inline style so nothing can override it ── */
     prBtn.style.cssText = 'background:linear-gradient(180deg,rgba(80,100,60,0.95),rgba(55,75,35,0.98));border-color:rgba(138,158,114,0.6);color:#fff;';
     ['tC1','tC2'].forEach(function (id) {
       var el = document.getElementById(id);
@@ -211,7 +232,6 @@ function tPauseResume() {
     beep(440, 0.08, 0.25);
   } else {
     prBtn.textContent   = 'PAUSE';
-    /* ── back to orange ── */
     prBtn.style.cssText = 'background:linear-gradient(180deg,rgba(160,80,10,0.95),rgba(120,55,5,0.98));border-color:rgba(220,120,20,0.7);color:#fff;';
     ['tC1','tC2'].forEach(function (id) {
       var el = document.getElementById(id);
@@ -222,7 +242,6 @@ function tPauseResume() {
   }
 }
 
-/* ── TIMER RESET ── */
 function tReset() {
   if (tIv) clearInterval(tIv);
   tRunning = false; tPaused = false; isRest = false;
@@ -304,10 +323,10 @@ function swStartStop() {
   var lapBtn   = document.getElementById('swLapBtn');
   var colon    = document.getElementById('swCol');
   if (!swRunning) {
-    swRunning = true;
+    swRunning              = true;
     startBtn.textContent   = 'STOP';
     startBtn.style.cssText = 'background:linear-gradient(180deg,rgba(160,20,20,0.95),rgba(120,10,10,0.98));border-color:rgba(220,40,40,0.7);color:#fff;';
-    lapBtn.disabled = false;
+    lapBtn.disabled        = false;
     colon.classList.remove('off');
     startBeep();
     var last = performance.now();
@@ -318,11 +337,11 @@ function swStartStop() {
       updateSwDisplay(swElapsed);
     }, 16);
   } else {
-    swRunning = false;
+    swRunning              = false;
     clearInterval(swIv);
     startBtn.textContent   = 'START';
     startBtn.style.cssText = '';
-    lapBtn.disabled = true;
+    lapBtn.disabled        = true;
     colon.classList.add('off');
     beep(440, 0.1, 0.25);
   }
@@ -337,7 +356,6 @@ function swLap() {
   renderLaps();
 }
 
-/* ── STOPWATCH RESET ── */
 function swReset() {
   if (swIv) clearInterval(swIv);
   swRunning  = false;
@@ -351,7 +369,7 @@ function swReset() {
   lapBtn.disabled        = true;
   document.getElementById('swCol').classList.add('off');
   document.getElementById('lapsWrap').style.display = 'none';
-  document.getElementById('lapsList').innerHTML = '';
+  document.getElementById('lapsList').innerHTML     = '';
   updateSwDisplay(0);
   beep(440, 0.1, 0.2);
 }
