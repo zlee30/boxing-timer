@@ -79,11 +79,11 @@ function switchMode() {
   var timerEl = document.getElementById('timerMode');
   var swEl    = document.getElementById('stopwatchMode');
   if (currentMode === 'stopwatch') {
-    btn.textContent       = 'TIMER';
+    btn.textContent       = 'SWITCH TO TIMER';
     timerEl.style.display = 'none';
     swEl.style.display    = 'flex';
   } else {
-    btn.textContent       = 'STOPWATCH';
+    btn.textContent       = 'SWITCH TO STOPWATCH';
     timerEl.style.display = 'flex';
     swEl.style.display    = 'none';
   }
@@ -135,14 +135,12 @@ function tSetToggle() {
     ['ph','pm','ps','rm','rs'].forEach(function (id) {
       document.getElementById(id).value = pv[id];
     });
-
   } else {
-    /* ── THIS } WAS MISSING — it closes the else block ── */
     pickerEl.classList.remove('show');
     setBtn.textContent = 'SET';
-    var ph = parseInt(document.getElementById('ph').value) || 0;
-    var pm = parseInt(document.getElementById('pm').value) || 0;
-    var ps = parseInt(document.getElementById('ps').value) || 0;
+    var ph  = parseInt(document.getElementById('ph').value) || 0;
+    var pm  = parseInt(document.getElementById('pm').value) || 0;
+    var ps  = parseInt(document.getElementById('ps').value) || 0;
     var rm2 = parseInt(document.getElementById('rm').value) || 0;
     var rs2 = parseInt(document.getElementById('rs').value) || 0;
     tTotal = (ph * 3600 + pm * 60 + ps) * 1000;

@@ -50,7 +50,6 @@ body {
   align-items: center;
 }
 
-/* ── MODE SWITCH BUTTON ── */
 .mode-btn {
   margin-bottom: 50px;
   background: linear-gradient(180deg, #1e1e1e, #141414);
@@ -77,7 +76,7 @@ body {
 ══════════════════════════════════════ */
 .timer-device {
   width: 100%;
-  background: linear-gradient(180deg, #111 0%, #090909 100%);
+  background: linear-gradient(180deg, #111111 0%, #090909 100%);
   border-radius: 10px;
   border: 2px solid #1e1e1e;
   border-top: 2px solid #2a2a2a;
@@ -231,6 +230,20 @@ body {
   border-color: rgba(10,60,10,0.4);
 }
 
+.t-screen-bot-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  padding: 0 2px;
+  position: relative; z-index: 1;
+}
+.t-screen-bot-labels span {
+  font-size: 6px;
+  letter-spacing: 1px;
+  color: var(--lcd-sub);
+  text-transform: uppercase;
+}
+
 .t-brand-bottom {
   text-align: center;
   margin-top: 10px;
@@ -246,7 +259,6 @@ body {
   50%        { background: var(--lcd-flash); }
 }
 .alarm-flash { animation: tFlash 0.35s ease-in-out 6; }
-
 
 /* ══════════════════════════════════════
    PICKERS
@@ -334,7 +346,6 @@ body {
   outline: none;
   -moz-appearance: textfield;
 }
-/* hide browser spin arrows */
 .pv::-webkit-inner-spin-button,
 .pv::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -343,7 +354,12 @@ body {
   color: #78b8ff;
   text-shadow: 0 0 5px rgba(50,130,255,0.35);
 }
-
+.psep {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 20px;
+  color: #2a2a2a;
+  margin-bottom: 7px;
+}
 
 /* ══════════════════════════════════════
    GLASS BUTTONS
@@ -385,7 +401,6 @@ body {
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
-
 .gb::before {
   content: '';
   position: absolute;
@@ -394,7 +409,6 @@ body {
     rgba(255,255,255,0.08), transparent);
   border-radius: 7px 7px 0 0;
 }
-
 .gb:hover {
   border-color: rgba(255,255,255,0.25);
   background: linear-gradient(180deg,
@@ -405,13 +419,12 @@ body {
 .gb:active  { transform: scale(0.97); }
 .gb:disabled { opacity: 0.22; cursor: not-allowed; }
 
-/* START — dark glass */
-.gb.gs {
-  border-color: rgba(255,255,255,0.18);
-  color: #ffffff;
-}
+.gb.gs   { border-color: rgba(255,255,255,0.18); color: #ffffff; }
+.gb.gx   { border-color: rgba(255,255,255,0.18); color: #ffffff; }
+.gb.gp   { border-color: rgba(255,255,255,0.18); color: #ffffff; }
+.gb.gr   { border-color: rgba(255,255,255,0.18); color: #ffffff; }
+.gb.gt   { border-color: rgba(255,255,255,0.18); color: #ffffff; }
 
-/* STOP — red */
 .gb.gx-red {
   border-color: rgba(220,40,40,0.7);
   color: #ffffff;
@@ -419,8 +432,6 @@ body {
     rgba(160,20,20,0.95),
     rgba(120,10,10,0.98));
 }
-
-/* PAUSE — orange */
 .gb.gp-orange {
   border-color: rgba(220,120,20,0.7);
   color: #ffffff;
@@ -428,8 +439,6 @@ body {
     rgba(160,80,10,0.95),
     rgba(120,55,5,0.98));
 }
-
-/* RESUME — LCD green */
 .gb.gr-green {
   border-color: rgba(138,158,114,0.6) !important;
   color: #ffffff !important;
@@ -437,8 +446,6 @@ body {
     rgba(80,100,60,0.95),
     rgba(55,75,35,0.98)) !important;
 }
-
-/* RESET — neutral grey */
 .gb.gr-reset {
   border-color: rgba(255,255,255,0.15);
   color: #ffffff;
@@ -446,18 +453,6 @@ body {
     rgba(50,50,50,0.95),
     rgba(30,30,30,0.98));
 }
-
-/* SET / LAP — dark glass */
-.gb.gt {
-  border-color: rgba(255,255,255,0.18);
-  color: #ffffff;
-}
-
-/* old classes kept so nothing breaks */
-.gb.gp { border-color: rgba(255,255,255,0.18); color: #ffffff; }
-.gb.gr { border-color: rgba(255,255,255,0.18); color: #ffffff; }
-.gb.gx { border-color: rgba(255,255,255,0.18); color: #ffffff; }
-
 
 /* ══════════════════════════════════════
    STOPWATCH — ROUND BODY
@@ -548,8 +543,8 @@ body {
   top: 38px; left: 50%;
   transform: translateX(-50%);
   font-family: 'Rajdhani', sans-serif;
-  font-size: 13px; font-weight: 700;
-  letter-spacing: 4px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 3px;
   color: rgba(255,255,255,0.16);
   text-transform: uppercase;
   white-space: nowrap; z-index: 5;
@@ -662,7 +657,6 @@ body {
   white-space: nowrap; z-index: 5;
 }
 
-
 /* ══════════════════════════════════════
    LAP LIST
 ══════════════════════════════════════ */
@@ -704,3 +698,19 @@ body {
 .lap-item.best .lt  { color: #2d7a2d; }
 .lap-item.worst     { border-color: rgba(180,50,50,0.25); }
 .lap-item.worst .lt { color: #a03030; }
+
+/* ══════════════════════════════════════
+   SIGNATURE
+══════════════════════════════════════ */
+.signature {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: rgba(0,0,0,0.4);
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+}
