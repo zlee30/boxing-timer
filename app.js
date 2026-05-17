@@ -243,7 +243,23 @@ function tPauseResume() {
 function tReset() {
   if (tIv) clearInterval(tIv);
   tRunning = false; tPaused = false; isRest = false;
-  tRem = tTotal; rRem = rTotal;
+
+  /* ── wipe everything back to zero ── */
+  tTotal = 0; tRem = 0;
+  rTotal = 0; rRem = 0;
+  pv = { ph: 0, pm: 0, ps: 0, rm: 0, rs: 0 };
+
+  /* ── reset the picker inputs to 0 ── */
+  ['ph','pm','ps','rm','rs'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.value = 0;
+  });
+
+  /* ── close pickers if open ── */
+  setting = false;
+  document.getElementById('pickersEl').classList.remove('show');
+  document.getElementById('tSetBtn').textContent = 'SET';
+
   var startBtn = document.getElementById('tStartBtn');
   var prBtn    = document.getElementById('tPRBtn');
   startBtn.textContent   = 'START';
@@ -251,8 +267,9 @@ function tReset() {
   prBtn.disabled         = true;
   prBtn.textContent      = 'PAUSE';
   prBtn.style.cssText    = 'background:linear-gradient(180deg,rgba(160,80,10,0.95),rgba(120,55,5,0.98));border-color:rgba(220,120,20,0.7);color:#fff;';
-  updateTimerDisplay(tTotal);
-  updateRestDisplay(rTotal);
+
+  updateTimerDisplay(0);
+  updateRestDisplay(0);
   setCycle('');
   colonsOff();
   beep(440, 0.1, 0.2);
